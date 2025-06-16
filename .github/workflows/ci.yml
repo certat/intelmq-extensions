@@ -32,7 +32,7 @@ jobs:
       - name: Prepare for testing
         run: |
           pip install tox tox-gh-actions
-          adduser --disabled-password --gecos "" intelmq
+          sudo adduser --disabled-password --gecos "" intelmq
 
       - name: Run tests
         run: tox
@@ -68,7 +68,7 @@ jobs:
       - name: Prepare for testing
         run: |
           pip install tox tox-gh-actions
-          adduser --disabled-password --gecos "" intelmq
+          sudo adduser --disabled-password --gecos "" intelmq
 
       - name: Run full CI tests
         run: tox -efull-ci
