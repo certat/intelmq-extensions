@@ -37,7 +37,7 @@ This package comes with test runners configured using `tox`. To use them:
 
 ```
 
-## Founding
+---
 
 Part of the development was financed by the European Union.
 
