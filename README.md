@@ -1,13 +1,21 @@
 # IntelMQ Extensions
 
-This project collects customized bots used primary by CERT.at.
+This project collects customized bots and some helper scripts for
+[IntelMQ](https://github.com/certtools/intelmq) used primary by CERT.at.
+
+It's a combination of customization previously available in [certat/intelmq](https://github.com/certat/intelmq)
+as well as newer solutions.
 
 ## Usage
 
-Install the package on the machine. Then, it's enough to just declare the bot's module
-pointing to this package, e.g. `intelmq_extensions.bots.collectors.xmpp`
+Install the package on the machine or virtualenv, where you have the IntelMQ, using
+`pip install intelmq-extensions`. Then, it's enough to just declare the bot's
+module pointing to this package, e.g. `intelmq_extensions.bots.collectors.xmpp`
 
+## Documentation
 
+There is a limited documentation available. Consult bot Python code to see information
+about the usage and available configuration.
 
 ## Running tests
 
@@ -28,3 +36,9 @@ This package comes with test runners configured using `tox`. To use them:
     tox -efull-with-docker -- intelmq_extensions/tests/bots/experts/squelcher/test_expert.py::TestSquelcherExpertBot::test_address_match1
 
 ```
+
+## Founding
+
+Part of the development was financed by the European Union.
+
+![CEF-Logo](https://github.com/certat/intelmq-extensions/blob/main/docs/cef_logo.png?raw=true)
