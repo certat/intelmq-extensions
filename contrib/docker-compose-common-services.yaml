@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: 2022 Kamil Mankowski
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+version: "3.9"
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: intelmq
+      POSTGRES_PASSWORD: intelmq
+    ports:
+      - 5432:5432
+    networks:
+      - imq_test
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    networks:
+      - imq_test
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - imq_test
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - imq_test
+
+networks:
+  imq_test:
+    name: imq_test

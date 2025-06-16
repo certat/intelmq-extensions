@@ -1,0 +1,38 @@
+{
+    "event": {
+        "destination_visible": {
+            "description": "If destination fields are visible. CERT.at-specific",
+            "type": "Boolean"
+        },
+        "notify": {
+            "description": "If mail will be sent out to affected or responsible contact. CERT.at-specific",
+            "type": "Boolean"
+        },
+        "rtir_incident_id": {
+            "description": "Request Tracker Incident Response incident id. CERT.at-specific",
+            "type": "Integer"
+        },
+        "rtir_investigation_id": {
+            "description": "Request Tracker Incident Response investigation id. CERT.at-specific",
+            "type": "Integer"
+        },
+        "rtir_report_id": {
+            "description": "Request Tracker Incident Response incident report id. CERT.at-specific",
+            "type": "Integer"
+        },
+        "sent_at": {
+            "description": "Time when the report has been sent to the responsible recipient. CERT.at-specific",
+            "type": "DateTime"
+        },
+        "shareable_extra_info": {
+            "description": "Fields from extra which can be shared. CERT.at-specific",
+            "type": "JSON"
+        }
+    },
+    "report": {
+        "rtir_report_id": {
+            "description": "Request Tracker Incident Response incident report id. CERT.at-specific",
+            "type": "Integer"
+        }
+    }
+}

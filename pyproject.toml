@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "intelmq_extensions"
+version = "1.8.1"
+description = "Additional bots for IntelMQ"
+readme = "README.md"
+requires-python = ">=3.7"
+dynamic = ["entry-points", "dependencies", "scripts"]
+
+classifiers = ["Programming Language :: Python :: 3"]
+# Required because of including some content previously in IntelMQ fork
+license = { text = "AGPLv3" }
+authors = [{ name = "CERT.at Data & Development Team" }]
+
+[project.urls]
+"Repository" = "https://github.com/certat/intelmq-extensions"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "tox>=4",
+    "ruff",
+    "isort",
+    "flake8",
+    "requests-mock",
+    "freezegun",
+]
+
+[tool.setuptools.packages.find]
+include = ["intelmq_extensions*"]
+
+[tool.setuptools.package-data]
+"*" = ["*/**/*.conf"]
+
+[tool.isort]
+profile = "black"

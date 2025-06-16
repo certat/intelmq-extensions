@@ -1,0 +1,9 @@
+{
+    "event": {
+        "constituency": {
+            "description": "Internal identifier for multi-constituency setup",
+            "length": 10,
+            "type": "String"
+        }
+    }
+}

@@ -1,0 +1,90 @@
+name: Running tests
+
+on:
+  push:
+    # branches: [ main ]
+  pull_request:
+
+jobs:
+  tests-simple-matrix:
+    runs-on: ubuntu-latest
+    # container: python:3.9
+    strategy:
+      matrix:
+        python-version: [3.9, 3.10, 3.11, 3.12]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: .cache/pip
+          key: pip-cache-${{ runner.os }}-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            pip-cache-${{ runner.os }}-
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Prepare for testing
+        run: |
+          pip install tox tox-gh-actions
+          adduser --disabled-password --gecos "" intelmq
+
+      - name: Run tests
+        run: tox
+
+  tests-matrix-full:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9, 3.10, 3.11, 3.12]
+    # container: python:${{ matrix.python-version }}
+
+    # services:
+    #   docker:
+    #     image: docker:dind-rootless
+    #     options: --privileged
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: .cache/pip
+          key: pip-cache-${{ runner.os }}-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            pip-cache-${{ runner.os }}-
+
+      - name: Prepare for testing
+        run: |
+          pip install tox tox-gh-actions
+          adduser --disabled-password --gecos "" intelmq
+
+      - name: Run full CI tests
+        run: tox -efull-ci
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install Tox
+        run: pip install tox
+
+      - name: Run linter
+        run: tox -elint
