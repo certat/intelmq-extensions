@@ -9,8 +9,9 @@ as well as newer solutions.
 ## Usage
 
 Install the package on the machine or virtualenv, where you have the IntelMQ, using
-`pip install intelmq-extensions`. Then, it's enough to just declare the bot's
-module pointing to this package, e.g. `intelmq_extensions.bots.collectors.xmpp`
+`pip install intelmq-extensions`. Then, the bots will be available as any other IntelMQ
+bot in the Manager as well to import using `intelmq.bots.*.certat` namespace, e.g.
+`intelmq.bots.experts.certat.vulnerability_lookup.expert`
 
 ## Documentation
 
