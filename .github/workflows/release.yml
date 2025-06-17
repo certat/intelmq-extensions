@@ -1,0 +1,38 @@
+name: Release the package
+
+on:
+  release:
+
+jobs:
+  build:
+    name: Build the package
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: .cache/pip
+          key: pip-cache-${{ runner.os }}-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            pip-cache-${{ runner.os }}-
+
+      - name: Build
+        run: python -m build
+
+  pypi-publish:
+    name: Upload release to PyPI
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/intelmq-extensions
+    permissions:
+      id-token: write
+    steps:
+    - name: Publish package distributions to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
+
