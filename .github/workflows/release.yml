@@ -15,10 +15,17 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .cache/pip
-          key: pip-cache-${{ runner.os }}-${{ hashFiles('**/requirements.txt') }}
+          key: pip-cache-${{ runner.os }}-${{ hashFiles('setup.py') }}
           restore-keys: |
             pip-cache-${{ runner.os }}-
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Prepare building
+        run: pip install build
       - name: Build
         run: python -m build
 
