@@ -61,7 +61,7 @@ jobs:
         uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
         with:
           path: .cache/pip
-          key: pip-cache-${{ runner.os }}-${{ hashFiles('**/requirements.txt') }}
+          key: pip-cache-${{ runner.os }}-${{ hashFiles('setup.py') }}
           restore-keys: |
             pip-cache-${{ runner.os }}-
 
