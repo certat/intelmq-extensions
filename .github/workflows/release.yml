@@ -41,8 +41,8 @@ jobs:
     needs:
       - build
     environment:
-      name: testpypi
-      url: https://test.pypi.org/p/intelmq-extensions
+      name: pypi
+      url: https://pypi.org/p/intelmq-extensions
     permissions:
       id-token: write
 
@@ -55,5 +55,3 @@ jobs:
 
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@76f52bc884231f62b9a034ebfe128415bbaabdfc # v1.12.4
-        with:
-          repository-url: https://test.pypi.org/legacy/

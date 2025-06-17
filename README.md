@@ -1,5 +1,7 @@
 # IntelMQ Extensions
 
+[![Running tests](https://github.com/certat/intelmq-extensions/actions/workflows/ci.yml/badge.svg)](https://github.com/certat/intelmq-extensions/actions/workflows/ci.yml)
+
 This project collects customized bots and some helper scripts for
 [IntelMQ](https://github.com/certtools/intelmq) used primary by CERT.at.
 
