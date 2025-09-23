@@ -4,7 +4,7 @@ ReplaceInDict allow replacing pattern in any text field in a dict field(s)
 """
 
 from intelmq.lib.bot import ExpertBot
-from intelmq.lib.exceptions import KeyNotExists, ConfigurationError
+from intelmq.lib.exceptions import ConfigurationError, KeyNotExists
 
 
 class ReplaceInDictExpertBot(ExpertBot):

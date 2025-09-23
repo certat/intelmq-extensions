@@ -6,11 +6,11 @@ Testing ReplaceInDictExpertBot.
 import copy
 import unittest
 
+from intelmq.lib.exceptions import ConfigurationError
+
 from intelmq_extensions.bots.experts.replace_in_dict.expert import (
     ReplaceInDictExpertBot,
 )
-
-from intelmq.lib.exceptions import ConfigurationError
 
 from ....base import BotTestCase
 
