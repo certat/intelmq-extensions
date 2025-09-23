@@ -10,7 +10,7 @@ from intelmq.lib.exceptions import ConfigurationError, KeyNotExists
 class ReplaceInDictExpertBot(ExpertBot):
     old_value: str = None
     new_value: str = None
-    fields: str | list = None
+    fields: str = None  # actually str | list on newer Python
 
     def init(self):
         if isinstance(self.fields, str):
