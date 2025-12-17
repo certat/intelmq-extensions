@@ -7,7 +7,7 @@ name = "intelmq_extensions"
 version = "1.10.0"
 description = "Additional bots for IntelMQ"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dynamic = ["entry-points", "dependencies", "scripts"]
 
 classifiers = ["Programming Language :: Python :: 3"]
