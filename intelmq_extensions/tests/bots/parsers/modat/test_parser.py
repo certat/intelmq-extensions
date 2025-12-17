@@ -6,7 +6,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 import json
 import unittest
-from copy import deepcopy
 from datetime import datetime
 
 import intelmq.lib.message as message
@@ -15,7 +14,6 @@ from dateutil.tz import UTC
 from intelmq_extensions.bots.parsers.modat.parser import ModatParserBot
 
 from ....base import BotTestCase
-
 from . import data
 
 

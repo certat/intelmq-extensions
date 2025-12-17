@@ -26,8 +26,8 @@ documentation: Optional[str] = None
 """
 
 import json
-
 from urllib.parse import urljoin
+
 from intelmq.lib.bot import CollectorBot
 from intelmq.lib.utils import create_request_session
 

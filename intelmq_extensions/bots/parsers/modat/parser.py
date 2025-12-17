@@ -7,22 +7,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 """
 
 import json
-from copy import deepcopy
 from datetime import datetime, timezone
 
 import intelmq.lib.message as message
-from dateutil.parser import ParserError
-from dateutil.parser import parse as dt_parse
-from dateutil.tz import UTC
-from dns.exception import DNSException
 from intelmq.lib import utils
 from intelmq.lib.bot import ParserBot
-from intelmq.lib.exceptions import IntelMQException
-from intelmq.lib.harmonization import URL, DateTime
-
-
-class InvalidData(IntelMQException, ValueError):
-    """Given message is invalid comparing with parser requirements"""
 
 
 class ModatParserBot(ParserBot):
