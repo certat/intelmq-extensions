@@ -1,4 +1,5 @@
-# SPDX-FileCopyrightText: 2016 by Bundesamt für Sicherheit in der Informationstechnik, 2016-2021 nic.at GmbH, 2024 Tim de Boer, 2025 Institute for Common Good Technology
+# SPDX-FileCopyrightText: 2016 by Bundesamt für Sicherheit in der Informationstechnik,
+# 2016-2021 nic.at GmbH, 2024 Tim de Boer, 2025 Institute for Common Good Technology
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # TODO: merge with the upstream bot
@@ -9,10 +10,12 @@ Retrieves a base64 encoded JSON-String from raw and converts it into an
 event, adding unknown fields as extra
 """
 
+from json import dumps as json_dumps
+from json import loads as json_loads
+
 from intelmq.lib.bot import ParserBot
 from intelmq.lib.message import MessageFactory
 from intelmq.lib.utils import base64_decode
-from json import loads as json_loads, dumps as json_dumps
 
 
 class JSONGenericParserBot(ParserBot):
@@ -24,7 +27,10 @@ class JSONGenericParserBot(ParserBot):
     def init(self):
         if self.multiple_events and self.splitlines:
             raise ValueError(
-                "Modes 'splitlines' and 'multiple_events' are not possible at the same time. Please use either one."
+                (
+                    "Modes 'splitlines' and 'multiple_events' "
+                    "are not possible at the same time. Please use either one."
+                )
             )
 
     def process(self):

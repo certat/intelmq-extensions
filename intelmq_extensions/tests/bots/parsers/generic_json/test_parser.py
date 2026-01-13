@@ -6,14 +6,20 @@
 import base64
 import os
 import unittest
-from json import loads as json_loads, dumps as json_dumps
+from json import dumps as json_dumps
+from json import loads as json_loads
 
 import intelmq.lib.test as test
+
 from intelmq_extensions.bots.parsers.generic_json.parser import JSONGenericParserBot
 
 ONELINE_REPORT = {
     "feed.name": "Test",
-    "raw": "eyJmZWVkLm5hbWUiOiAiVGVzdCBmZWVkIiwgInJhdyI6ICJabTl2WW1GeUNnPT0iLCAiX190eXBlIjogIkV2ZW50IiwgInRpbWUub2JzZXJ2YXRpb24iOiAiMjAxNS0wMS0wMVQwMDowMDowMCswMDowMCIsICJjbGFzc2lmaWNhdGlvbi50eXBlIjogInVua25vd24ifQ==",
+    "raw": (
+        "eyJmZWVkLm5hbWUiOiAiVGVzdCBmZWVkIiwgInJhdyI6ICJabTl2WW"
+        "1GeUNnPT0iLCAiX190eXBlIjogIkV2ZW50IiwgInRpbWUub2JzZXJ2YXRpb24iOiAiMjAxNS0wMS"
+        "0wMVQwMDowMDowMCswMDowMCIsICJjbGFzc2lmaWNhdGlvbi50eXBlIjogInVua25vd24ifQ=="
+    ),
     "__type": "Report",
     "time.observation": "2016-10-10T00:00:00+00:00",
 }
@@ -105,7 +111,8 @@ MULTILINE_GENERIC_EVENTS = [
     {
         "feed.name": "Test feed",
         "raw": base64.b64encode(
-            b'{"__type": "Event", "source.ip": "127.0.0.2", "somethingelse": "hahaha", "extra.ok": "ok"}'
+            b'{"__type": "Event", "source.ip": "127.0.0.2", "somethingelse": '
+            b'"hahaha", "extra.ok": "ok"}'
         ).decode(),
         "__type": "Event",
         "extra.somethingelse": "hahaha",
