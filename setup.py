@@ -13,6 +13,8 @@ BASE_REQUIREMENTS = [
     "mergedeep",
     # squelcher
     "netaddr>=0.7.14",
+    # iban
+    "schwifty",
 ]
 
 TESTS_REQUIRES = [
