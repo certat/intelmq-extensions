@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "intelmq_extensions"
-version = "1.11.1"
+version = "1.11.2"
 description = "Additional bots for IntelMQ"
 readme = "README.md"
 requires-python = ">=3.10"

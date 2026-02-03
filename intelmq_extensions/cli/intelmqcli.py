@@ -167,7 +167,7 @@ class IntelMQCLIContoller(lib.IntelMQCLIContollerTemplate):
                 if self.subject:
                     subject = self.subject
                 else:
-                    subject = "%s %s incidents on %s" "" % (
+                    subject = "%s %s incidents on %s" % (
                         len(event_ids),
                         lib.SUBJECT[taxonomy],
                         datetime.datetime.now().strftime("%Y-%m-%d"),
@@ -375,8 +375,11 @@ class IntelMQCLIContoller(lib.IntelMQCLIContollerTemplate):
         if description:
             self._collected_descriptions.add(description.replace("\\n", "\n"))
             # \\n - encoded new lines
-            row["event_description.text"] = description.replace("\n", " ").replace(
-                "\\n", " "
+            row["event_description.text"] = (
+                description.replace("\n", " ")
+                .replace("\\n", " ")
+                .replace("\\r", "")
+                .replace("\r", "")
             )
         return row
 
@@ -406,7 +409,7 @@ class IntelMQCLIContoller(lib.IntelMQCLIContollerTemplate):
         if self.subject:
             subject = self.subject
         else:
-            subject = "{tax} incidents in your network: {date}" "".format(
+            subject = "{tax} incidents in your network: {date}".format(
                 date=datetime.datetime.now().strftime("%Y-%m-%d"),
                 tax=lib.SUBJECT[taxonomy],
             )
@@ -441,9 +444,7 @@ To: {to}
 Subject: {subj}
 
 {text}
-    """.format(
-                to=requestor, subj=subject, text=text
-            )
+    """.format(to=requestor, subj=subject, text=text)
         )
         showed_text_len = showed_text.count("\n")
 
@@ -620,8 +621,9 @@ Subject: {subj}
             asns = set(str(row["source.asn"]) for row in query)
             answer = input(
                 inverted(
-                    "Save recipient {!r} for ASNs {!s}? [Y/n] "
-                    "".format(requestor, ", ".join(asns))
+                    "Save recipient {!r} for ASNs {!s}? [Y/n] ".format(
+                        requestor, ", ".join(asns)
+                    )
                 )
             ).strip()
             if answer.strip().lower() in ("", "y", "j"):

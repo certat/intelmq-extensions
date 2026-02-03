@@ -140,7 +140,7 @@ class TestConstituencySupport(CLITestCase):
                 "constituency": "energy",
                 "rtir_report_id": 20,
                 "event_description.text": (
-                    "Some very long description \n with \n\n multiple \n new lines."
+                    "Some very long description \n with \n\n multiple \r\n new lines."
                 ),
             }
         )
