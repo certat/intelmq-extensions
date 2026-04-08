@@ -15,6 +15,7 @@ BASE_REQUIREMENTS = [
     "netaddr>=0.7.14",
     # iban
     "schwifty",
+    "setuptools<82",  # TODO: fix pkg_resources incompatibility
 ]
 
 TESTS_REQUIRES = [
