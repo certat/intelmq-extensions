@@ -162,8 +162,8 @@ class TestCryptshareDownloadExpertBot(BotTestCase, unittest.TestCase):
 
         # for call in self.requests.request_history:
         self.assertEqual("Test123456789", self.bot.http_header.get("X-CS-Password"))
-        self.assertEqual(1, self.bot.http_header.get("X-CS-MajorApiVersion"))
-        self.assertEqual(15, self.bot.http_header.get("X-CS-MinimumMinorApiVersion"))
+        self.assertEqual("1", self.bot.http_header.get("X-CS-MajorApiVersion"))
+        self.assertEqual("15", self.bot.http_header.get("X-CS-MinimumMinorApiVersion"))
         self.assertEqual("api.rest", self.bot.http_header.get("X-CS-ProductKey"))
         # 50 is the minimum client ID length accepted by Cryptshare
         self.assertGreater(len(self.bot.http_header.get("X-CS-ClientId")), 50)

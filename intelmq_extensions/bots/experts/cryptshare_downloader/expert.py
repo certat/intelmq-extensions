@@ -55,8 +55,8 @@ class CryptshareDownloadExpertBot(ExpertBot):
             "Accept": "application/json",
             # Required constants
             "X-CS-ProductKey": "api.rest",
-            "X-CS-MajorApiVersion": 1,
-            "X-CS-MinimumMinorApiVersion": 15,
+            "X-CS-MajorApiVersion": "1",
+            "X-CS-MinimumMinorApiVersion": "15",
         }
         self.cryptshare_url = self.cryptshare_url.rstrip("/")
 
