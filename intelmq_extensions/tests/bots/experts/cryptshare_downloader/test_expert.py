@@ -151,13 +151,6 @@ class TestCryptshareDownloadExpertBot(BotTestCase, unittest.TestCase):
 
     def test_required_headers_are_prepared(self):
         """The Cryptshare password and client id must be forwarded as headers."""
-        # self.mock_transfer(
-        #     TRANSFER_ID,
-        #     [{"id": "f1", "fileName": "x.txt"}],
-        # )
-        # self.mock_file(TRANSFER_ID, "f1", b"x")
-
-        # self.input_message = INPUT
         self.prepare_bot(prepare_source_queue=False)
 
         # for call in self.requests.request_history:
@@ -167,6 +160,7 @@ class TestCryptshareDownloadExpertBot(BotTestCase, unittest.TestCase):
         self.assertEqual("api.rest", self.bot.http_header.get("X-CS-ProductKey"))
         # 50 is the minimum client ID length accepted by Cryptshare
         self.assertGreater(len(self.bot.http_header.get("X-CS-ClientId")), 50)
+        self.assertRegex(self.bot.http_header.get("X-CS-ClientId"), r"^[a-zA-Z0-9]+$")
 
     def test_empty_transfer_emits_no_report(self):
         """An empty transfer is acknowledged without emitting downstream messages."""

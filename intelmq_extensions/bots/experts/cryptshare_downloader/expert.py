@@ -23,6 +23,7 @@ SPDX-FileCopyrightText: 2026 CERT.at GmbH <https://cert.at/>
 SPDX-License-Identifier: AGPL-3.0-or-later
 """
 
+import re
 import secrets
 from urllib.parse import parse_qs, urlsplit
 
@@ -30,7 +31,7 @@ from intelmq.lib.bot import ExpertBot
 from intelmq.lib.message import Report
 from intelmq.lib.utils import create_request_session
 
-CLIENT_IDENTIFICATION = "IntelMQ-CryptshareDownloader"
+CLIENT_IDENTIFICATION = "IntelMQCryptshareDownloader"
 
 
 class CryptshareDownloadExpertBot(ExpertBot):
@@ -42,17 +43,26 @@ class CryptshareDownloadExpertBot(ExpertBot):
 
     client_id: str = None
 
+    @staticmethod
+    def _is_client_id_valid(client_id: str):
+        return re.search(r"^[a-zA-Z0-9]+$", client_id) is not None
+
+    # TODO: implement check(...)
+
     def init(self):
         # ClientID is the "secret" identification, but in case of downloading
         # data id does not poses any special role
         if not self.client_id:
-            self.client_id = f"{CLIENT_IDENTIFICATION}/{secrets.token_hex(20)}"
+            self.client_id = f"{CLIENT_IDENTIFICATION}{secrets.token_hex(20)}"
+        if not self._is_client_id_valid(self.client_id):
+            raise ValueError(
+                "Client id does not match the expected ^[a-zA-Z0-9]+$ regex."
+            )
 
         self.set_request_parameters()
         self.http_header = {
             "X-CS-ClientId": self.client_id,
             "X-CS-Password": self.password,
-            "Accept": "application/json",
             # Required constants
             "X-CS-ProductKey": "api.rest",
             "X-CS-MajorApiVersion": "1",
@@ -82,6 +92,7 @@ class CryptshareDownloadExpertBot(ExpertBot):
         response = self.http_session.get(
             f"{self.cryptshare_url}/api/transfers/{transfer_id}/files"
         )
+        self.logger.debug("Cryptshare response: %s.", response.text)
         response.raise_for_status()
         return response.json().get("data", [])
 
