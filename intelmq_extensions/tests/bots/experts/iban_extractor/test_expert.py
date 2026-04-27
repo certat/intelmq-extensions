@@ -69,6 +69,26 @@ class TestIBANExtractorExpertBot(BotTestCase, unittest.TestCase):
         message["source.geolocation.cc"] = "AT"
         self.assertMessageEqual(0, message)
 
+    def test_iban_in_json(self):
+        message = {
+            "__type": "Event",
+            "time.observation": "2015-01-01T00:00:00+00:00",
+            "extra.payload": "foo",
+            "extra.name": "bar",
+            "extra.firmwarerev": 1,
+            "extra.text": '{"something": "aaa", "iban": "AT08 2011 115329734423", "bank": "aaaa"}',
+        }
+        self.input_message = copy.deepcopy(message)
+        self.run_bot()
+        message["extra.iban"] = "AT082011115329734423"
+        message["extra.bank"] = "Erste Bank der oesterreichischen Sparkassen AG"
+        message["extra.bic"] = "GIBAATWWXXX"
+        message["extra.iban_hash"] = (
+            "942b348fcca86b81f7465308e2b1b3cb6aaad1c218f9110699ab47cb34b6b1b8"
+        )
+        message["source.geolocation.cc"] = "AT"
+        self.assertMessageEqual(0, message)
+
 
 if __name__ == "__main__":
     unittest.main()
