@@ -63,6 +63,7 @@ class TestIBANExtractorExpertBot(BotTestCase, unittest.TestCase):
         message["extra.iban"] = "AT082011115329734423"
         message["extra.bank"] = "Erste Bank der oesterreichischen Sparkassen AG"
         message["extra.bic"] = "GIBAATWWXXX"
+        message["extra.bank_code"] = "20111"
         message["extra.iban_hash"] = (
             "942b348fcca86b81f7465308e2b1b3cb6aaad1c218f9110699ab47cb34b6b1b8"
         )
@@ -83,6 +84,7 @@ class TestIBANExtractorExpertBot(BotTestCase, unittest.TestCase):
         message["extra.iban"] = "AT082011115329734423"
         message["extra.bank"] = "Erste Bank der oesterreichischen Sparkassen AG"
         message["extra.bic"] = "GIBAATWWXXX"
+        message["extra.bank_code"] = "20111"
         message["extra.iban_hash"] = (
             "942b348fcca86b81f7465308e2b1b3cb6aaad1c218f9110699ab47cb34b6b1b8"
         )

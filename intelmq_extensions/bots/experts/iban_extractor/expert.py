@@ -65,6 +65,12 @@ class IBANExtractorExpertBot(ExpertBot):
             overwrite=False,
             raise_failure=False,
         )
+        event.add(
+            "extra.bank_code",
+            str(iban.bank_code) if iban.bank_code else None,
+            overwrite=False,
+            raise_failure=False,
+        )
         iban_hash = hashlib.sha256(str(iban).encode()).hexdigest()
         event.add("extra.iban_hash", iban_hash, overwrite=False)
 
