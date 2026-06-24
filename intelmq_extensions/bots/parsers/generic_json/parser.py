@@ -33,6 +33,20 @@ class JSONGenericParserBot(ParserBot):
                 )
             )
 
+    def _harmonize_dict(self, line_dict: dict):
+        type_harmonization = self.harmonization.get(
+            line_dict.get("__type", "Event").lower()
+        )
+
+        for k in list(line_dict.keys()):
+            if k == "__type":
+                continue
+            if (k not in type_harmonization and not k.startswith("extra.")) or (
+                k == "extra" and not isinstance(line_dict[k], dict)
+            ):
+                line_dict[f"extra.{k}"] = line_dict[k]
+                del line_dict[k]
+
     def process(self):
         report = self.receive_message()
         if self.multiple_events:
@@ -45,28 +59,21 @@ class JSONGenericParserBot(ParserBot):
         for line in lines:
             event = self.new_event(report)
             if self.multiple_events:
+                raw = json_dumps(line, sort_keys=True)
+                self._harmonize_dict(line)
                 event.update(
                     MessageFactory.from_dict(
                         line, harmonization=self.harmonization, default_type="Event"
                     )
                 )
-                event["raw"] = json_dumps(line, sort_keys=True)
+                event["raw"] = raw
             else:
                 if not isinstance(line, dict):
                     line_dict = json_loads(line)
                 else:
                     line_dict = line
 
-                type_harmonization = self.harmonization.get(
-                    line_dict.get("__type", "Event").lower()
-                )
-
-                for k in list(line_dict.keys()):
-                    if k == "__type":
-                        continue
-                    if k not in type_harmonization and not k.startswith("extra."):
-                        line_dict[f"extra.{k}"] = line_dict[k]
-                        del line_dict[k]
+                self._harmonize_dict(line_dict)
 
                 event.update(
                     MessageFactory.from_dict(

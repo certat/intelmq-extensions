@@ -83,6 +83,9 @@ for i, event in enumerate(NCSC_EVENTS):
     NCSC_EVENTS[i]["feed.name"] = "NCSC.NL"
     NCSC_EVENTS[i]["__type"] = "Event"
 
+NCSC_EVENTS[2]["extra.fallback_field"] = "comes-to-extra"
+del NCSC_EVENTS[2]["fallback_field"]
+
 NCSCNL_REPORT = {
     "feed.name": "NCSC.NL",
     "raw": NCSCNL_RAW,
@@ -120,14 +123,23 @@ MULTILINE_GENERIC_EVENTS = [
         "source.ip": "127.0.0.2",
         "classification.type": "undetermined",
     },
+    {
+        "feed.name": "Test feed",
+        "raw": base64.b64encode(
+            b'{"__type": "Event", "source.ip": "127.0.0.2", "somethingelse": '
+            b'"hahaha", "extra.ok": "ok", "extra": "ohno"}'
+        ).decode(),
+        "__type": "Event",
+        "extra.somethingelse": "hahaha",
+        "extra.ok": "ok",
+        "source.ip": "127.0.0.2",
+        "extra.extra": "ohno",
+        "classification.type": "undetermined",
+    },
 ]
 
 
 class TestJSONParserBot(test.BotTestCase, unittest.TestCase):
-    """
-    A TestCase for a MalwareDomainListParserBot.
-    """
-
     @classmethod
     def set_bot(cls):
         cls.bot_reference = JSONGenericParserBot
@@ -165,6 +177,7 @@ class TestJSONParserBot(test.BotTestCase, unittest.TestCase):
         self.run_bot(parameters={"splitlines": True})
         self.assertMessageEqual(0, MULTILINE_GENERIC_EVENTS[0])
         self.assertMessageEqual(1, MULTILINE_GENERIC_EVENTS[1])
+        self.assertMessageEqual(2, MULTILINE_GENERIC_EVENTS[2])
 
 
 if __name__ == "__main__":  # pragma: no cover

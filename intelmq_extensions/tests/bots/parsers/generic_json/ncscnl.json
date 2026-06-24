@@ -63,6 +63,7 @@
         "source.ip": "127.1.2.3",
         "source.network": "127.1.0.0/16",
         "source.port": 9000,
-        "time.source": "2024-12-15T21:09:49+00:00"
+        "time.source": "2024-12-15T21:09:49+00:00",
+        "fallback_field": "comes-to-extra"
     }
 ]

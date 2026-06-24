@@ -1,2 +1,3 @@
 {"__type": "Event", "source.ip": "127.0.0.1", "notexists": "generic data"}
 {"__type": "Event", "source.ip": "127.0.0.2", "somethingelse": "hahaha", "extra.ok": "ok"}
+{"__type": "Event", "source.ip": "127.0.0.2", "somethingelse": "hahaha", "extra.ok": "ok", "extra": "ohno"}
