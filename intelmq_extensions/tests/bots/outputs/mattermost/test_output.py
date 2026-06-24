@@ -96,7 +96,7 @@ class TestMattermostOutputBot(BotTestCase, unittest.TestCase):
                 "text": "text zeus",
                 "fallback": "fallback zeus",
                 "title": "title zeus",
-                "title_link": "title_link {ev[classification.identifier]}",
+                "title_link": "title_link zeus",
                 "author_name": "author_name {ev[classification.identifier]}",
                 "author_icon": "author_icon {ev[classification.identifier]}",
                 "author_link": "author_link {ev[classification.identifier]}",

@@ -40,6 +40,7 @@ class MattermostOutputBot(OutputBot):
         "title",
         "value",
         "footer",
+        "title_link",
     ]
     _attachment_fields = [
         "fallback",
