@@ -29,7 +29,7 @@ ADDITIONAL_HARMONIZATION = ["contrib/constituency.harmonization.part.json"]
 
 POSTGRES_CONFIG = {
     "host": os.getenv("INTELMQ_TEST_DATABASE_HOST", "localhost"),
-    "port": os.getenv("INTELMQ_TEST_DATABASE_PORT", 5432),
+    "port": os.getenv("INTELMQ_TEST_DATABASE_PORT", "5432"),
     "database": "intelmq",
     "user": "intelmq",
     "password": "intelmq",
@@ -39,7 +39,7 @@ POSTGRES_CONFIG = {
 
 
 def mocked_config_from_extensions(
-    bot_id="test-bot", sysconfig={}, group=None, module=None
+    bot_id="test-bot", sysconfig=None, group=None, module=None
 ):
     """The only one difference with original is the package used to load resources"""
 
@@ -51,7 +51,7 @@ def mocked_config_from_extensions(
                     "group": group,
                     "module": module,
                     "name": "Test Bot",
-                    "parameters": sysconfig,
+                    "parameters": sysconfig or {},
                 }
             }
         elif conf_file.startswith(CONFIG_DIR):

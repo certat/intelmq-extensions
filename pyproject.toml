@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "intelmq_extensions"
-version = "1.13.1"
+version = "1.14.0"
 description = "Additional bots for IntelMQ"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -37,3 +37,46 @@ include = ["intelmq_extensions*"]
 
 [tool.isort]
 profile = "black"
+
+[tool.ruff.lint]
+ignore = [
+    "RUF013",
+
+    "UP032",
+    "UP031",
+    "UP030",
+    "C408",
+    "C405",
+    "SIM103",
+    "SIM103",
+    "C401",
+    "C400",
+
+    # TODO: this findings shall be corrected in the future
+    "UP009",
+    "FURB129",
+    "PLR0402",
+    "DTZ003",
+    "RUF100",
+    "UP010",
+    "SIM117",
+    "BLE001",
+    "RUF022",
+    "PLR1722",
+    "UP018",
+    "UP011",
+    "G010",
+    "B019",
+    "D419",
+    "EXE001",
+    "UP034",
+    "UP007",
+    "RUF012",
+    "SIM102",
+    "UP028",
+    "UP035",
+    "UP045",
+    "S110",
+    "SIM210",
+    "G201",
+]
