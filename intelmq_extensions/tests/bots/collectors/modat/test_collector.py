@@ -11,6 +11,7 @@ from unittest import mock
 import intelmq.lib.message as message
 import requests
 from freezegun import freeze_time
+from intelmq.lib.exceptions import ConfigurationError
 from requests_mock import MockerCore
 
 from intelmq_extensions.bots.collectors.modat.collector import ModatCollectorBot
@@ -122,6 +123,30 @@ class TestModatCollectorBot(BotTestCase, unittest.TestCase):
             1, self._create_report_dict([{"ip": "ip3"}, {"ip": "ip4"}])
         )
         self.assertEqual(2, self.requests.call_count)
+
+    def test_query_services(self):
+        service_1 = {"ip": "ip1", "service": {"port": 22, "protocol": "ssh"}}
+        service_2 = {"ip": "ip1", "service": {"port": 443, "protocol": "http"}}
+        self.mock_request(
+            "service/search/v1",
+            json={
+                "page_nr": 1,
+                "total_pages": 1,
+                "total_records": 2,
+                "page": [service_1, service_2],
+                "facets": {},
+            },
+        )
+
+        self.run_bot(parameters={"type": "service"})
+
+        self.assertOutputQueueLen(1)
+        self.assertMessageEqual(0, self._create_report_dict([service_1, service_2]))
+        self.assertEqual(1, self.requests.call_count)
+
+    def test_unsupported_type(self):
+        with self.assertRaises(ConfigurationError):
+            self.run_bot(parameters={"type": "dns"})
 
     def test_rate_limit_uses_retry_after_seconds(self):
         self.mock_request(

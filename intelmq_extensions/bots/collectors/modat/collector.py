@@ -11,6 +11,8 @@ api_key
 # TODO: multiple queries in one bot?
 query
 type [service|host]
+    host: search using Host API
+    service: search Service API
 
 # with defaults
 url = "https://api.magnify.modat.io/"
@@ -34,7 +36,13 @@ from email.utils import parsedate_to_datetime
 from urllib.parse import urljoin
 
 from intelmq.lib.bot import CollectorBot
+from intelmq.lib.exceptions import ConfigurationError
 from intelmq.lib.utils import create_request_session
+
+SEARCH_ENDPOINTS = {
+    "host": "/host/search/v1",
+    "service": "/service/search/v1",
+}
 
 
 class ModatCollectorBot(CollectorBot):
@@ -48,6 +56,14 @@ class ModatCollectorBot(CollectorBot):
     type: str  # service|host
 
     def init(self):
+        if self.type not in SEARCH_ENDPOINTS:
+            raise ConfigurationError(
+                f"Unsupported type {self.type!r}, expected one of: "
+                f"{', '.join(SEARCH_ENDPOINTS)}.",
+                "type",
+            )
+        self.search_url = urljoin(self.url, SEARCH_ENDPOINTS[self.type])
+
         self.set_request_parameters()
         self.session = create_request_session(self)
         self.session.headers = {"Authorization": f"Bearer {self.api_key}"}
@@ -57,16 +73,11 @@ class ModatCollectorBot(CollectorBot):
         collected_results = 0
         total_available = self.page_size
 
-        if self.type == "host":
-            url = urljoin(self.url, "/host/search/v1")
-        else:
-            url = urljoin(self.url, "/service/search/v1")
-
         while (
             total_available > collected_results and collected_results < self.max_results
         ):
             result = self._post(
-                url,
+                self.search_url,
                 json={"page": page, "page_size": self.page_size, "query": self.query},
             )
             if result.status_code != 200:
