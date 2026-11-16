@@ -144,6 +144,99 @@ class TestModatCollectorBot(BotTestCase, unittest.TestCase):
         self.assertMessageEqual(0, self._create_report_dict([service_1, service_2]))
         self.assertEqual(1, self.requests.call_count)
 
+    def test_max_responses_limits_results(self):
+        service_1 = {"ip": "ip1", "service": {"port": 22, "protocol": "ssh"}}
+        service_2 = {"ip": "ip1", "service": {"port": 443, "protocol": "http"}}
+        service_3 = {"ip": "ip1", "service": {"port": 8443, "protocol": "http"}}
+        self.mock_request(
+            "service/search/v1",
+            json={
+                "page_nr": 1,
+                "total_pages": 3,
+                "total_records": 9,
+                "page": [service_1, service_2, service_3],
+                "facets": {},
+            },
+        )
+        self.mock_request(
+            "service/search/v1",
+            json={
+                "page_nr": 2,
+                "total_pages": 3,
+                "total_records": 9,
+                "page": [service_2, service_3, service_1],
+                "facets": {},
+            },
+            expected_page=2,
+        )
+        self.mock_request(
+            "service/search/v1",
+            json={
+                "page_nr": 3,
+                "total_pages": 3,
+                "total_records": 9,
+                "page": [service_3, service_1, service_2],
+                "facets": {},
+            },
+            expected_page=3,
+        )
+
+        self.run_bot(parameters={"type": "service", "max_results": 5})
+
+        self.assertOutputQueueLen(2)
+        self.assertMessageEqual(
+            0, self._create_report_dict([service_1, service_2, service_3])
+        )
+        self.assertMessageEqual(
+            1, self._create_report_dict([service_2, service_3, service_1])
+        )
+        self.assertEqual(2, self.requests.call_count)
+
+    def test_negative_max_responses_is_unlimited(self):
+        service_1 = {"ip": "ip1", "service": {"port": 22, "protocol": "ssh"}}
+        service_2 = {"ip": "ip1", "service": {"port": 443, "protocol": "http"}}
+        service_3 = {"ip": "ip1", "service": {"port": 8443, "protocol": "http"}}
+        self.mock_request(
+            "service/search/v1",
+            json={
+                "page_nr": 1,
+                "total_pages": 3,
+                "total_records": 150,
+                "page": [service_1] * 50,
+                "facets": {},
+            },
+        )
+        self.mock_request(
+            "service/search/v1",
+            json={
+                "page_nr": 2,
+                "total_pages": 3,
+                "total_records": 150,
+                "page": [service_2] * 50,
+                "facets": {},
+            },
+            expected_page=2,
+        )
+        self.mock_request(
+            "service/search/v1",
+            json={
+                "page_nr": 3,
+                "total_pages": 3,
+                "total_records": 150,
+                "page": [service_3] * 50,
+                "facets": {},
+            },
+            expected_page=3,
+        )
+
+        self.run_bot(parameters={"type": "service", "max_results": -1})
+
+        self.assertOutputQueueLen(3)
+        self.assertMessageEqual(0, self._create_report_dict([service_1] * 50))
+        self.assertMessageEqual(1, self._create_report_dict([service_2] * 50))
+        self.assertMessageEqual(2, self._create_report_dict([service_3] * 50))
+        self.assertEqual(3, self.requests.call_count)
+
     def test_unsupported_type(self):
         with self.assertRaises(ConfigurationError):
             self.run_bot(parameters={"type": "dns"})

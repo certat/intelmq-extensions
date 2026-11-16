@@ -48,7 +48,7 @@ SEARCH_ENDPOINTS = {
 class ModatCollectorBot(CollectorBot):
     url: str = "https://api.magnify.modat.io/"
     page_size = 10
-    max_results = 100
+    max_results = -1  # unlimited
     rate_limit_retries: int = 5
 
     api_key: str
@@ -67,6 +67,9 @@ class ModatCollectorBot(CollectorBot):
         self.set_request_parameters()
         self.session = create_request_session(self)
         self.session.headers = {"Authorization": f"Bearer {self.api_key}"}
+
+        if self.max_results <= 0:
+            self.max_results = math.inf
 
     def process(self):
         page = 1
