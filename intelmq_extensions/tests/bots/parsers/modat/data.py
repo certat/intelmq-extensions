@@ -294,7 +294,7 @@ SERVICE_EVENT_2 = {
     "product.name": "apache_http_server",
     "product.version": "2.4.58",
     "product.full_name": "Apache HTTP Server 2.4.58",
-    "product.vulnerabilities": "cve-2024-38476;cve-2024-38474",
+    "product.vulnerabilities": "cve-2024-38474;cve-2024-38476",
     "time.source": "2026-11-02T10:00:00+00:00",
     "extra": {
         "technologies": "PHP/8.2.1;jQuery",

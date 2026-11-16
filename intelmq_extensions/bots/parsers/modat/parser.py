@@ -119,7 +119,8 @@ class ModatParserBot(ParserBot):
 
     @staticmethod
     def _add_cves(cves: list, event: message.Event):
-        cves = ";".join(cve.get("id", "").lower() for cve in cves)
+        # sort for stability
+        cves = ";".join(sorted(cve.get("id", "").lower() for cve in cves))
         if cves:
             event.add("product.vulnerabilities", cves, raise_failure=False)
 
